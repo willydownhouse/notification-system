@@ -84,6 +84,16 @@ class UserResourceTest {
     }
 
     @Test
+    fun `reject blank username`() {
+        given()
+            .contentType(ContentType.JSON)
+            .body("""{"username":"","email":"bob2@example.com"}""")
+            .post("/users")
+            .then()
+            .statusCode(400)
+    }
+
+    @Test
     fun `reject duplicate username`() {
         val body = """{"username":"bob","email":"bob@example.com"}"""
         given().contentType(ContentType.JSON).body(body).post("/users").then().statusCode(201)
@@ -94,5 +104,7 @@ class UserResourceTest {
             .post("/users")
             .then()
             .statusCode(409)
+            .body("status", equalTo(409))
+            .body("message", equalTo("Username already exists"))
     }
 }
