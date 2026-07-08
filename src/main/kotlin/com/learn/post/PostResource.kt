@@ -1,6 +1,7 @@
 package com.learn.post
 
 import com.learn.api.ApiErrors
+import com.learn.notification.NotificationService
 import com.learn.user.User
 import io.quarkus.panache.common.Sort
 import jakarta.transaction.Transactional
@@ -17,7 +18,9 @@ import org.jboss.logging.Logger
 @Path("/posts")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-class PostResource {
+class PostResource(
+    private val notificationService: NotificationService,
+) {
 
     private val log = Logger.getLogger(PostResource::class.java)
 
@@ -36,6 +39,7 @@ class PostResource {
         }
 
         post.persistAndFlush()
+        notificationService.onPostCreated(post)
 
         log.info("Created post id=${post.id} authorId=${author.id} title=${post.title}")
 

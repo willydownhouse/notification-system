@@ -1,5 +1,6 @@
 package com.learn.dev
 
+import com.learn.notification.NotificationService
 import com.learn.post.Post
 import com.learn.user.User
 import io.quarkus.arc.profile.IfBuildProfile
@@ -11,7 +12,9 @@ import org.jboss.logging.Logger
 
 @IfBuildProfile("dev")
 @ApplicationScoped
-class DevDataSeeder {
+class DevDataSeeder(
+    private val notificationService: NotificationService,
+) {
 
     private val log = Logger.getLogger(DevDataSeeder::class.java)
 
@@ -38,11 +41,13 @@ class DevDataSeeder {
                 return
             }
 
-            Post().apply {
+            val post = Post().apply {
                 author = alice
                 title = "Hello from Alice"
                 body = "Welcome to the notification system dev environment."
-            }.persistAndFlush()
+            }
+            post.persistAndFlush()
+            notificationService.onPostCreated(post)
 
             log.info("Seeded 1 dev post")
         }
