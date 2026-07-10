@@ -34,22 +34,22 @@ class DevDataSeeder(
             log.info("Seeded 2 dev users")
         }
 
-        if (Post.count() == 0L) {
-            val alice = User.find("username", "alice").firstResult()
-            if (alice == null) {
-                log.warn("Skipping post seed: alice not found")
-                return
-            }
-
-            val post = Post().apply {
-                author = alice
-                title = "Hello from Alice"
-                body = "Welcome to the notification system dev environment."
-            }
-            post.persistAndFlush()
-            notificationService.onPostCreated(post)
-
-            log.info("Seeded 1 dev post")
-        }
+//        if (Post.count() == 0L) {
+//            val alice = User.find("username", "alice").firstResult()
+//            if (alice == null) {
+//                log.warn("Skipping post seed: alice not found")
+//                return
+//            }
+//
+//            val post = Post().apply {
+//                author = alice
+//                title = "Hello from Alice"
+//                body = "Welcome to the notification system dev environment."
+//            }
+//            post.persistAndFlush()
+//            notificationService.onPostCreated(post)
+//
+//            log.info("Seeded 1 dev post")
+//        }
     }
 }

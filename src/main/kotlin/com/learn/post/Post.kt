@@ -45,5 +45,13 @@ class Post : PanacheEntityBase {
         createdAt = createdAt,
     )
 
+    fun toCreatedEvent(): PostCreatedEvent = PostCreatedEvent(
+        postId = id,
+        authorId = author.id,
+        authorUsername = author.username,
+        title = title,
+        createdAt = createdAt,
+    )
+
     companion object : PanacheCompanionBase<Post, UUID>
 }
