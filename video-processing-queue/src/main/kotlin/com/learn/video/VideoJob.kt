@@ -57,5 +57,11 @@ class VideoJob : PanacheEntityBase {
         updatedAt = updatedAt,
     )
 
+    fun toProcessingRequestedEvent(): VideoProcessingRequestedEvent = VideoProcessingRequestedEvent(
+        jobId = id,
+        inputUrl = inputUrl,
+        createdAt = createdAt,
+    )
+
     companion object : PanacheCompanionBase<VideoJob, UUID>
 }

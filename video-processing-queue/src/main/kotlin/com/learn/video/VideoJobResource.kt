@@ -15,7 +15,9 @@ import jakarta.ws.rs.core.Response
 @Path("/videos/jobs")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-class VideoJobResource {
+class VideoJobResource(
+    private val videoJobService: VideoJobService,
+) {
 
     @GET
     @Transactional
@@ -36,6 +38,7 @@ class VideoJobResource {
             inputUrl = request.inputUrl
         }
         job.persistAndFlush()
+        videoJobService.onJobCreated(job)
 
         return Response.status(Response.Status.CREATED)
             .entity(job.toResponse())
